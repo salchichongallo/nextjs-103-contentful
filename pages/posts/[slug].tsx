@@ -25,8 +25,8 @@ type Params = {
 };
 
 const QUERY_BLOG_POST = /* GraphQL */ `
-  query QueryBlogPost($slug: String!) {
-    blogPostCollection(limit: 1, where: { slug: $slug }) {
+  query QueryBlogPost($slug: String!, $preview: Boolean) {
+    blogPostCollection(limit: 1, where: { slug: $slug }, preview: $preview) {
       items {
         title
         slug
@@ -44,7 +44,11 @@ export const getStaticProps: GetStaticProps<Props, Params> = async ({
     data: {
       blogPostCollection: { items },
     },
-  } = await fetchContentful(QUERY_BLOG_POST, { slug: params!.slug });
+  } = await fetchContentful(
+    QUERY_BLOG_POST,
+    { slug: params!.slug },
+    { preview: false }
+  );
   return {
     props: {
       post: items[0],
