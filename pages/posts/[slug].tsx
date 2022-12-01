@@ -1,7 +1,7 @@
-import Link from "next/link";
-import { GetStaticPaths, GetStaticProps } from "next";
-import { BlogPost } from "../../lib/BlogPost.interface";
-import { fetchContentful } from "../../lib/fetchContentful";
+import Link from 'next/link';
+import { GetStaticPaths, GetStaticProps } from 'next';
+import { BlogPost } from '../../lib/BlogPost.interface';
+import { fetchContentful } from '../../lib/fetchContentful';
 
 type Props = {
   post: BlogPost;
@@ -47,7 +47,7 @@ export const getStaticProps: GetStaticProps<Props, Params> = async ({
   } = await fetchContentful(
     QUERY_BLOG_POST,
     { slug: params!.slug },
-    { preview: false }
+    { preview: false },
   );
   return {
     props: {
@@ -74,7 +74,7 @@ export const getStaticPaths: GetStaticPaths<Params> = async () => {
   } = await fetchContentful(QUERY_POSTS_PATHS);
 
   return {
-    paths: posts.map((post: Pick<BlogPost, "slug">) => ({
+    paths: posts.map((post: Pick<BlogPost, 'slug'>) => ({
       params: {
         slug: post.slug,
       },

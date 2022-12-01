@@ -1,7 +1,7 @@
-import Link from "next/link";
-import { GetStaticProps } from "next";
-import { BlogPost } from "../lib/BlogPost.interface";
-import { fetchContentful } from "../lib/fetchContentful";
+import Link from 'next/link';
+import { GetStaticProps } from 'next';
+import { BlogPost } from '../lib/BlogPost.interface';
+import { fetchContentful } from '../lib/fetchContentful';
 
 type HomeProps = {
   posts: BlogPost[];
@@ -15,7 +15,7 @@ export default function Home({ posts }: HomeProps) {
       </header>
       <main>
         <section>
-          {posts.map((post) => (
+          {posts.map(post => (
             <article key={post.slug}>
               <Link href={`/posts/${post.slug}`}>{post.title}</Link>
               <p>{post.excerpt}</p>
