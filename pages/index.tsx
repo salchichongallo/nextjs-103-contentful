@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { GetStaticProps } from 'next';
 import { BlogPost } from '../lib/BlogPost.interface';
-import { fetchContentful } from '../lib/fetchContentful';
+import { fetchGraphl } from '../lib/fetchGraphql';
 
 type HomeProps = {
   posts: BlogPost[];
@@ -47,7 +47,7 @@ export const getStaticProps: GetStaticProps<HomeProps> = async () => {
     data: {
       blogPostCollection: { items: posts },
     },
-  } = await fetchContentful(QUERY_LANDING_POSTS);
+  } = await fetchGraphl(QUERY_LANDING_POSTS);
 
   return {
     props: {

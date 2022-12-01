@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { GetStaticPaths, GetStaticProps } from 'next';
 import { BlogPost } from '../../lib/BlogPost.interface';
-import { fetchContentful } from '../../lib/fetchContentful';
+import { fetchGraphl } from '../../lib/fetchGraphql';
 
 type Props = {
   post: BlogPost;
@@ -44,11 +44,7 @@ export const getStaticProps: GetStaticProps<Props, Params> = async ({
     data: {
       blogPostCollection: { items },
     },
-  } = await fetchContentful(
-    QUERY_BLOG_POST,
-    { slug: params!.slug },
-    { preview: false },
-  );
+  } = await fetchGraphl(QUERY_BLOG_POST, { slug: params!.slug });
   return {
     props: {
       post: items[0],
@@ -71,7 +67,7 @@ export const getStaticPaths: GetStaticPaths<Params> = async () => {
     data: {
       blogPostCollection: { items: posts },
     },
-  } = await fetchContentful(QUERY_POSTS_PATHS);
+  } = await fetchGraphl(QUERY_POSTS_PATHS);
 
   return {
     paths: posts.map((post: Pick<BlogPost, 'slug'>) => ({
