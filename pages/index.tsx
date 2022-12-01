@@ -2,10 +2,26 @@ import Link from 'next/link';
 import { GetStaticProps } from 'next';
 import { BlogPost } from '../lib/BlogPost.interface';
 import { fetchContentful } from '../lib/fetchContentful';
+import { Button } from '../components/Button';
+import styled from '../styles/styled';
 
 type HomeProps = {
   posts: BlogPost[];
 };
+
+const Layout = styled('div', {
+  display: 'flex',
+  paddingTop: '2rem',
+  gap: '1rem',
+  flexDirection: 'column',
+  '@tablet': {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  '@laptop': {
+    alignItems: 'end',
+  },
+});
 
 export default function Home({ posts }: HomeProps) {
   return (
@@ -20,9 +36,22 @@ export default function Home({ posts }: HomeProps) {
               <Link href={`/posts/${post.slug}`}>{post.title}</Link>
               <p>{post.excerpt}</p>
               <small>{post.publishedAt.slice(0, 10)}</small>
+              <Button>See More</Button>
             </article>
           ))}
         </section>
+
+        <Layout>
+          <Button size="large" compact>
+            Text Button
+          </Button>
+          <Button size="medium" compact>
+            Text Button
+          </Button>
+          <Button size="small" compact>
+            Text Button
+          </Button>
+        </Layout>
       </main>
     </div>
   );
