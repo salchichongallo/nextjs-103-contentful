@@ -1,0 +1,6 @@
+.cache
+.next
+package-lock.json
+yarn.lock
+build
+coverage
