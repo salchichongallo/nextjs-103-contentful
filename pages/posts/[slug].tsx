@@ -1,7 +1,8 @@
 import Link from 'next/link';
 import { GetStaticPaths, GetStaticProps } from 'next';
 import { BlogPost } from '../../lib/BlogPost.interface';
-import { fetchGraphl } from '../../lib/fetchGraphql';
+import { client } from '../../lib/apollo-client';
+import { gql } from '@apollo/client';
 
 type Props = {
   post: BlogPost;
@@ -44,7 +45,11 @@ export const getStaticProps: GetStaticProps<Props, Params> = async ({
     data: {
       blogPostCollection: { items },
     },
-  } = await fetchGraphl(QUERY_BLOG_POST, { slug: params!.slug });
+  } = await client.query({
+    query: gql(QUERY_BLOG_POST),
+    variables: { slug: params!.slug },
+  });
+
   return {
     props: {
       post: items[0],
@@ -52,7 +57,7 @@ export const getStaticProps: GetStaticProps<Props, Params> = async ({
   };
 };
 
-const QUERY_POSTS_PATHS = /* GraphQL */ `
+const QUERY_POSTS_PATHS = gql`
   query QueryPostsPaths {
     blogPostCollection {
       items {
@@ -67,7 +72,7 @@ export const getStaticPaths: GetStaticPaths<Params> = async () => {
     data: {
       blogPostCollection: { items: posts },
     },
-  } = await fetchGraphl(QUERY_POSTS_PATHS);
+  } = await client.query({ query: QUERY_POSTS_PATHS });
 
   return {
     paths: posts.map((post: Pick<BlogPost, 'slug'>) => ({

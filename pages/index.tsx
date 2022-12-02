@@ -1,7 +1,8 @@
 import Link from 'next/link';
+import { gql } from '@apollo/client';
 import { GetStaticProps } from 'next';
 import { BlogPost } from '../lib/BlogPost.interface';
-import { fetchGraphl } from '../lib/fetchGraphql';
+import { client } from '../lib/apollo-client';
 
 type HomeProps = {
   posts: BlogPost[];
@@ -28,7 +29,7 @@ export default function Home({ posts }: HomeProps) {
   );
 }
 
-const QUERY_LANDING_POSTS = /* GraphQL */ `
+const QUERY_LANDING_POSTS = gql`
   query QueryLandingPosts {
     blogPostCollection {
       total
@@ -47,7 +48,7 @@ export const getStaticProps: GetStaticProps<HomeProps> = async () => {
     data: {
       blogPostCollection: { items: posts },
     },
-  } = await fetchGraphl(QUERY_LANDING_POSTS);
+  } = await client.query({ query: QUERY_LANDING_POSTS });
 
   return {
     props: {
