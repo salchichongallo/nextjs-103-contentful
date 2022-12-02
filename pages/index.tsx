@@ -3,6 +3,7 @@ import { gql } from '@apollo/client';
 import { GetStaticProps } from 'next';
 import { BlogPost } from '../lib/BlogPost.interface';
 import { client } from '../lib/apollo-client';
+import { Button } from '../components/Button';
 
 type HomeProps = {
   posts: BlogPost[];
@@ -21,6 +22,7 @@ export default function Home({ posts }: HomeProps) {
               <Link href={`/posts/${post.slug}`}>{post.title}</Link>
               <p>{post.excerpt}</p>
               <small>{post.publishedAt.slice(0, 10)}</small>
+              <Button variant="primary">Text Button</Button>
             </article>
           ))}
         </section>
